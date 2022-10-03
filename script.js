@@ -14,6 +14,41 @@ const fourth = document.getElementById('fourth-verb');
 
 const numberOfVerbs = verbs.length;
 
+let answerRoullete = [0,1,1,1];
+let positionsOfVerbs = [];
+let rightAnswer;
+let allRightAnswers;
 
+next.addEventListener('click', function() {
+    next.style.display = 'none';
+});
 
+makeRandomList();
+
+let lastPosition = positionsOfVerbs = length-1;
+
+function makeRandomList() {
+    for(let i=0; i<numberOfVerbs; i++) {
+        positionsOfVerbs.push(i);
+    }
+    positionsOfVerbs = positionsOfVerbs.sort(() => Math.random()-0.5);
+}
+
+function buttonEffect(itsRight, button) {
+    if(itsRight) {
+        button.classList.add('rightAnswer');
+        setTimeout(function() {
+            button.classList.remove('rightAnswer');
+        }, 1000);
+        rightAnswerCounter = rightAnswerCounter + 1;
+    } else {
+        button.classList.add('wrongAnswer');
+        setTimeout(function() {
+            button.classList.remove('wrongAnswer');
+        }, 1000);
+    }
+    setTimeout( function() {
+        ponerVerbo();
+    }, 1000);
+}
 
