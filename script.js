@@ -15,7 +15,7 @@ const fourth = document.getElementById('fourth-verb');
 const numberOfVerbs = verbs.length;
 
 let answerRoullete = [0,1,1,1];
-let positionsOfVerbs = [];
+let everyNumberOfVerb = [];
 let rightAnswer;
 let allRightAnswers;
 
@@ -25,13 +25,13 @@ next.addEventListener('click', function() {
 
 makeRandomList();
 
-let lastPosition = positionsOfVerbs = length-1;
+let lastPosition = everyNumberOfVerb = length-1;
 
 function makeRandomList() {
     for(let i=0; i<numberOfVerbs; i++) {
-        positionsOfVerbs.push(i);
+        everyNumberOfVerb.push(i);
     }
-    positionsOfVerbs = positionsOfVerbs.sort(() => Math.random()-0.5);
+    everyNumberOfVerb = everyNumberOfVerb.sort(() => Math.random()-0.5);
 }
 
 function buttonEffect(itsRight, button) {
@@ -52,3 +52,75 @@ function buttonEffect(itsRight, button) {
     }, 1000);
 }
 
+first.addEventListener('click', function() {
+    buttonEffect(isItRight_(first.innerHTML), this);
+});
+
+second.addEventListener('click', function() {
+    buttonEffect(isItRight_(second.innerHTML), this);
+});
+
+third.addEventListener('click', function() {
+    buttonEffect(isItRight_(third.innerHTML), this);
+});
+
+fourth.addEventListener('click', function() {
+    buttonEffect(isItRight_(fourth.innerHTML), this);
+});
+
+function shuffleAnswers(array) {
+    let numberOfVerbsButtons = array.length;
+    let randomIndex;
+
+    while(numberOfAnswerButtons != 0) {
+        randomIndex = Math.floor(Math.random()*numberOfAnswerButtons);
+        numberOfAnswerButtons--;
+        [array[numberOfAnswerButtons], array[randomIndex]] = [array[randomIndex], array[numberOfAnswerButtons]];
+    }
+    return array;
+}
+
+function isItRight_(answer) {
+    return answer == rightAnswer?true:false;
+}
+
+function randomVerbo(notThisOne) {
+    theOne = Math.floor(Math.random()*verbsContainer.length);
+    return theOne = notThisOne?randomVerbo(notThisOne):theOne;
+}
+
+function ponerVerbo() {
+    answerRoullete = shuffleAnswers(answerRoullete);
+    let randomPosition = everyNumberOfVerb[lastPosition];
+    let imgText = "<img src = 'img/" + verbs[randomPosition]+".jpg' height = '140px' width = '100px'>";
+
+    first.classList.add("btn", "btn-outline-primary", "btn-md");
+    second.classList.add("btn", "btn-outline-primary", "btn-md");
+    third.classList.add("btn", "btn-outline-primary", "btn-md");
+    fourth.classList.add("btn", "btn-outline-primary", "btn-md");
+
+    if(lastPosition >= 0) {
+        let just_position = lastPosition + 1;
+        verbsCounter.innerHTML = '' + just_position +  '/' + numberOfVerbs;
+        allRightCounter.innerHTML = "Right answers: " + rightAnswerCounter;
+
+        showVerb.innerHTML = verbs[randomPosition];
+        showAudio.src = "audio/" + verbs[randomPosition] + ".mp3";
+        showAudio.play();
+
+
+        first.innerHTML = !answerRoullete[0]?verbos[randomPosition]:verbos[randomVerbo(randomPosition)];
+        second.innerHTML = !answerRoullete[0]?verbos[randomPosition]:verbos[randomVerbo(randomPosition)];
+        third.innerHTML = !answerRoullete[0]?verbos[randomPosition]:verbos[randomVerbo(randomPosition)];
+        fourth.innerHTML = !answerRoullete[0]?verbos[randomPosition]:verbos[randomVerbo(randomPosition)];
+
+        rightAnswer = verbos[randomPosition];
+        lastPosition = lastPosition - 1;
+    } else {
+        verbsCounter.innerHTML = "0 / " + numberOfVerbs;
+        allRightAnswers.innerHTML = "Right answers: " + rightAnswerCounter;
+        showVerb.innerHTML = "Thank you!";
+        verbsContainer.innerHTML = "";
+    }
+
+}
